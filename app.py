@@ -108,8 +108,8 @@ def undo():
         currentExp = currentExp[:len(currentExp)-1]
         updateCurrent()
         
-redoBtn = Button(buttonsFrame, text="\u0008" , bg="#F8FaFF", fg=LABEL_COLOR, font=("Arial", 20), borderwidth=0, command=undo)
-redoBtn.grid(row=0, column=1 ,sticky=NSEW)
+undoBtn = Button(buttonsFrame, text="\u232b" , bg="#F8FaFF", fg=LABEL_COLOR, font=("Arial", 20), borderwidth=0, command=undo)
+undoBtn.grid(row=0, column=1 ,sticky=NSEW)
 
 # Equal button
 equalsBtn = Button(buttonsFrame, text="=" , bg="#CCEDFF", fg=LABEL_COLOR, font=("Arial", 20), borderwidth=0, command=evaluate)
