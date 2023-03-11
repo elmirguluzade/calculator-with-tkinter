@@ -41,8 +41,6 @@ digits = {
 operators = {"/": "\u00F7", "*": "\u00D7", "-": "-", "+": "+"}
 
 # Button functionality
-
-
 def addExpression(val):
     global currentExp
     currentExp += str(val)
@@ -87,8 +85,6 @@ def digitButtons():
 digitButtons()
 
 # Creating operators
-
-
 def operatorButtons():
     i = 0
     for operator, symbol in operators.items():
@@ -101,8 +97,6 @@ def operatorButtons():
 operatorButtons()
 
 # Clear button
-
-
 def clearAll():
     global currentExp, totalExp, isClicked, isEnough
     currentExp = ""
@@ -118,8 +112,6 @@ clearBtn = Button(buttonsFrame, text="C", bg=BTN_COLOR, fg=LABEL_COLOR, font=(
 clearBtn.grid(row=0, column=2, columnspan=2, sticky=NSEW)
 
 # Undo button
-
-
 def undo():
     global currentExp, totalExp, isEnough
     if (len(totalExp) >= 3 or len(totalExp) == 0) and isEnough == True:
@@ -145,8 +137,6 @@ for x in range(1, 5):
     buttonsFrame.columnconfigure(x, weight=1)
 
 # Updating label values
-
-
 def updateCurrent():
     global currentExp
     currentLabel.config(text=currentExp)
@@ -160,8 +150,6 @@ def updateTotal():
     totalLabel.config(text=expr)
 
 # Error handling
-
-
 def isfloat(num):
     try:
         result = num.split('.')
