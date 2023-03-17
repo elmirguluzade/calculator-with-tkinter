@@ -56,10 +56,12 @@ def advancedCalc(oper):
         elif oper == "sign": result = float(currentExp) * -1
         elif oper == "log": result = math.log(float(currentExp), 2)
         elif oper == "fact":
-            if float(currentExp) < 0:
+            if int(currentExp) < 0:
                 currentExp = "Error"
+                updateCurrent()
                 return
-            currentExp = math.factorial(isfloat(float(currentExp)))
+            currentExp = math.factorial(int(currentExp))
+            print(currentExp)
         if result != "":
             tempRes = result
             result = str(result).split(".")
@@ -89,18 +91,22 @@ def addOperator(oper):
     updateTotal()
 
 def evaluate():
+    isValid = False
     global totalExp, currentExp, isClicked, isEnough
-    totalExp += currentExp
-    try:
-        currentExp = str(eval(totalExp))
-        currentExp = isfloat(currentExp)
-    except:
-        currentExp = "Error"
-    finally:
-        isClicked = True
-        isEnough = True
-        updateCurrent()
-        updateTotal()
+    for symbol, _  in operators.items():
+        if totalExp[len(totalExp) - 1] == symbol: isValid = True
+    if isValid == True:
+        totalExp += currentExp
+        try:
+            currentExp = str(eval(totalExp))
+            currentExp = isfloat(currentExp)
+        except:
+            currentExp = "Error"
+        finally:
+            isClicked = True
+            isEnough = True
+            updateCurrent()
+            updateTotal()
 
 # Creating button
 def digitButtons():
