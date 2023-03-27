@@ -40,21 +40,27 @@ digits = {
     0: (4, 2), ".": (4, 1)
 }
 operators = {"/": "\u00F7", "*": "\u00D7", "-": "-", "+": "+"}
-advanced_operators = {"fact": "x!", "pow": "x\u00b2", "sqrt": "\u221ax", "log": "log", "sign": "\u00b1"}
+advanced_operators = {"fact": "x!", "pow": "x\u00b2",
+                      "sqrt": "\u221ax", "log": "log", "sign": "\u00b1"}
+
 
 def advancedCalc(oper):
     global currentExp
     result = ''
-    if currentExp == "": return
+    if currentExp == "":
+        return
     try:
-        if oper == "pow": result = float(currentExp) ** 2
+        if oper == "pow":
+            result = float(currentExp) ** 2
         elif oper == "sqrt":
             if float(currentExp) <= 0:
                 currentExp = "Error"
                 return
             result = float(currentExp) ** (1/2)
-        elif oper == "sign": result = float(currentExp) * -1
-        elif oper == "log": result = math.log(float(currentExp), 2)
+        elif oper == "sign":
+            result = float(currentExp) * -1
+        elif oper == "log":
+            result = math.log(float(currentExp), 2)
         elif oper == "fact":
             if int(currentExp) < 0:
                 currentExp = "Error"
@@ -65,12 +71,17 @@ def advancedCalc(oper):
         if result != "":
             tempRes = result
             result = str(result).split(".")
-            if result[len(result) - 1] == "0": currentExp = result[0]
-            else: currentExp = str(round(float(tempRes), 6))
-    except: currentExp = "Error"
+            if result[len(result) - 1] == "0":
+                currentExp = result[0]
+            else:
+                currentExp = str(round(float(tempRes), 6))
+    except:
+        currentExp = "Error"
     updateCurrent()
 
 # Button functionality
+
+
 def addExpression(val):
     global currentExp
     if currentExp == "Error":
@@ -78,9 +89,11 @@ def addExpression(val):
     currentExp += str(val)
     updateCurrent()
 
+
 def addOperator(oper):
     global currentExp, totalExp, isClicked, isEnough
-    if currentExp == "": return
+    if currentExp == "":
+        return
     currentExp += oper
     if isClicked == True:
         totalExp = ""
@@ -90,11 +103,13 @@ def addOperator(oper):
     updateCurrent()
     updateTotal()
 
+
 def evaluate():
     isValid = False
     global totalExp, currentExp, isClicked, isEnough
-    for symbol, _  in operators.items():
-        if totalExp[len(totalExp) - 1] == symbol: isValid = True
+    for symbol, _ in operators.items():
+        if totalExp[len(totalExp) - 1] == symbol:
+            isValid = True
     if isValid == True:
         totalExp += currentExp
         try:
@@ -109,14 +124,20 @@ def evaluate():
             updateTotal()
 
 # Creating button
+
+
 def digitButtons():
     for digit, grid in digits.items():
         button = Button(buttonsFrame, text=str(digit), bg="#FFF", fg=LABEL_COLOR, font=(
             "Arial", 20, "bold"), borderwidth=0, command=lambda val=digit: addExpression(val))
         button.grid(row=grid[0], column=grid[1], sticky=NSEW)
+
+
 digitButtons()
 
 # Creating operators
+
+
 def operatorButtons():
     i = 0
     j = 0
@@ -130,9 +151,13 @@ def operatorButtons():
             "Arial", 20), borderwidth=0, command=lambda oper=operator: advancedCalc(oper))
         button.grid(row=j, column=0, sticky=NSEW)
         j += 1
+
+
 operatorButtons()
 
 # Clear button
+
+
 def clearAll():
     global currentExp, totalExp, isClicked, isEnough
     currentExp = ""
@@ -142,11 +167,14 @@ def clearAll():
     updateCurrent()
     updateTotal()
 
+
 clearBtn = Button(buttonsFrame, text="C", bg=BTN_COLOR, fg=LABEL_COLOR, font=(
     "Arial", 20), borderwidth=0, command=clearAll)
 clearBtn.grid(row=0, column=2, columnspan=2, sticky=NSEW)
 
 # Undo button
+
+
 def undo():
     global currentExp, totalExp, isEnough
     if currentExp == "Error":
@@ -160,7 +188,9 @@ def undo():
         try:
             currentExp = currentExp[:len(currentExp)-1]
             updateCurrent()
-        except: ""
+        except:
+            ""
+
 
 undoBtn = Button(buttonsFrame, text="\u232b", bg=BTN_COLOR,
                  fg=LABEL_COLOR, font=("Arial", 20), borderwidth=0, command=undo)
@@ -177,9 +207,12 @@ for x in range(5):
     buttonsFrame.columnconfigure(x, weight=1)
 
 # Updating label values
+
+
 def updateCurrent():
     global currentExp
     currentLabel.config(text=currentExp)
+
 
 def updateTotal():
     global totalExp
@@ -189,6 +222,8 @@ def updateTotal():
     totalLabel.config(text=expr)
 
 # Error handling
+
+
 def isfloat(num):
     try:
         result = num.split('.')
@@ -196,7 +231,18 @@ def isfloat(num):
             return str(int(result[0]))
         else:
             return str(round(float(num), 6))
-    except: return num
+    except:
+        return num
+
+
+def key_press(event):
+    val = event.keysym
+    try:
+        val = int(val)
+        addExpression(val)
+    except: return
+
+root.bind('<Key>', key_press)
 
 # !Run
 root.mainloop()
